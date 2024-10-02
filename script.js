@@ -42,17 +42,16 @@ function playSoundSequentially(soundFile1, soundFile2) {
     };
 }
 
-// Function to show the next combination
-function showNextCombination() {
-    // Select two combinations for concatenation
+// Function to show the current combination (synchronized with sound)
+function showCombination() {
     const combo1 = combinations[currentIndex];
-    const combo2 = combinations[(currentIndex + 1) % combinations.length]; // Get the next combination
+    const combo2 = combinations[(currentIndex + 1) % combinations.length];
     
     // Display the combined result
     combinationDisplay.textContent = combo1.combo + combo2.combo;
 }
 
-// Event listener for play sound button
+// Event listener for the play sound button
 playSoundButton.addEventListener('click', () => {
     // Get the current and next combination sounds
     const combo1 = combinations[currentIndex];
@@ -62,14 +61,14 @@ playSoundButton.addEventListener('click', () => {
     playSoundSequentially(combo1.sound, combo2.sound);
 });
 
-// Event listener for next button to show the next combination
+// Event listener for the next button to show the next combination and synchronize it with the sound
 nextButton.addEventListener('click', () => {
-    // Show the next combination
-    showNextCombination();
-    
-    // Increment the currentIndex after showing the combination
+    // Increment the currentIndex for the next pair
     currentIndex = (currentIndex + 2) % combinations.length;
+    
+    // Show the updated combination
+    showCombination();
 });
 
 // Initialize with the first combination
-showNextCombination();  // This will display the initial combination
+showCombination();  // This will display the initial combination
