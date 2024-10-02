@@ -30,8 +30,18 @@ const level1Tab = document.getElementById('level1-tab');
 const level2Tab = document.getElementById('level2-tab');
 const level3Tab = document.getElementById('level3-tab');
 
+// Title element
+const appTitle = document.getElementById('app-title');
+
 let soundsToPlay = [];  // Array to store sounds for the current combination
 let currentLevel = 1;  // Default to Level 1 (1 combination)
+
+// Function to hide the title after opening the app
+function hideTitle() {
+    setTimeout(() => {
+        appTitle.style.display = 'none';  // Hide the title
+    }, 2000);  // 2-second delay (you can adjust this delay as needed)
+}
 
 // Function to play the sounds sequentially
 function playSoundSequentially(sounds) {
@@ -106,3 +116,6 @@ level3Tab.addEventListener('click', () => {
 
 // Initialize the page with no combination shown (waiting for "Next" to be clicked)
 combinationDisplay.textContent = '';  // Empty initial display
+
+// Call the hideTitle function when the app opens
+hideTitle();
