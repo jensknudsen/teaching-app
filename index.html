@@ -9,13 +9,24 @@
 <body>
     <div class="container">
         <h1>Lær Lyden</h1>
+        
+        <!-- Dropdown for selecting the level -->
+        <label for="level-select">Choose Level:</label>
+        <select id="level-select">
+            <option value="1">Level 1 (1 Combination)</option>
+            <option value="2">Level 2 (2 Combinations)</option>
+            <option value="3">Level 3 (3 Combinations)</option>
+        </select>
+
         <div class="combination-display">
             <span id="combination">Consonant + Vowel</span>
         </div>
+        
         <button id="play-sound">Lyd</button>
         <button id="next">Næste</button>
     </div>
 
+    <!-- Link to the JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
