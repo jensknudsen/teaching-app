@@ -20,11 +20,14 @@ const combinations = [
     { combo: 'cå', sound: 'sounds/cå.mp3' }
 ];
 
-// DOM elements
+// Array of emojis for reward
+const emojis = ['🎉', '🎈', '🌟', '🚀', '🦄', '🐶', '🍀', '🌈', '💎', '🔥'];
+
 const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
 const nextButton = document.getElementById('next');
-const tapCounter = document.getElementById('tap-counter');
+const emojiReward = document.getElementById('emoji-reward');
+const emojiCollection = document.getElementById('emoji-collection');
 
 // Tab elements for levels
 const level1Tab = document.getElementById('level1-tab');
@@ -83,10 +86,22 @@ function updateDisplayWithRandomCombination() {
     combinationDisplay.textContent = newCombination;  // Display the random consonant-vowel combination
 }
 
-// Function to update the tap counter
-function updateTapCounter() {
-    tapCount += 1;
-    tapCounter.textContent = `Button pressed ${tapCount} times`;
+// Function to show emoji reward every 10 taps
+function showEmojiReward() {
+    if (tapCount % 10 === 0 && tapCount > 0) {
+        // Show a random emoji from the emoji array
+        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        emojiReward.textContent = `🎉 You've earned: ${randomEmoji}`;
+        emojiReward.style.opacity = '1';  // Make the emoji visible
+        
+        // Append the emoji to the collection
+        emojiCollection.textContent += ` ${randomEmoji}`;
+        
+        // Hide the emoji reward after 3 seconds
+        setTimeout(() => {
+            emojiReward.style.opacity = '0';
+        }, 3000);
+    }
 }
 
 // Event listener for the "Next" button
@@ -105,8 +120,11 @@ nextButton.addEventListener('click', () => {
         isFirstPress = false;  // Mark that the button has been pressed
     }
 
-    // Update the tap counter
-    updateTapCounter();
+    // Increment the tap counter
+    tapCount++;
+    
+    // Show emoji reward every 10th press
+    showEmojiReward();
 });
 
 // Event listener for the "Lyd" button to play the sounds
