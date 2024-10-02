@@ -20,36 +20,53 @@ const combinations = [
     { combo: 'cå', sound: 'sounds/cå.mp3' }
 ];
 
+// Keep track of the current combination
+let currentIndex = 0;
+
 // DOM elements
 const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
 const nextButton = document.getElementById('next');
 
 // Function to play the sound
-function playSound(soundFile) {
-    const audio = new Audio(soundFile);
-    audio.play().catch(error => {
-        console.error(`Error playing sound: ${error}`);
-    });
+function playSoundSequentially(soundFile1, soundFile2) {
+    const audio1 = new Audio(soundFile1);
+    const audio2 = new Audio(soundFile2);
+
+    // Play the first sound
+    audio1.play();
+    
+    // When the first sound finishes, play the second
+    audio1.onended = () => {
+        audio2.play();
+    };
 }
 
-// Function to show a random combination
-function showRandomCombination() {
-    const randomIndex = Math.floor(Math.random() * combinations.length);
-    combinationDisplay.textContent = combinations[randomIndex].combo;
-    return combinations[randomIndex].sound; // Return the sound for the new combination
+// Function to show the next combination
+function showNextCombination() {
+    // Select two combinations for concatenation
+    const combo1 = combinations[currentIndex];
+    const combo2 = combinations[(currentIndex + 1) % combinations.length]; // Get the next combination
+    
+    // Display the combined result
+    combinationDisplay.textContent = combo1.combo + combo2.combo;
+    
+    // Update currentIndex to move to the next pair in sequence
+    currentIndex = (currentIndex + 2) % combinations.length;
 }
 
 // Event listeners for buttons
 playSoundButton.addEventListener('click', () => {
-    const soundFile = combinations.find(c => c.combo === combinationDisplay.textContent).sound;
-    playSound(soundFile);
+    const combo1 = combinations[currentIndex];
+    const combo2 = combinations[(currentIndex + 1) % combinations.length];
+    
+    // Play the sounds sequentially
+    playSoundSequentially(combo1.sound, combo2.sound);
 });
 
-nextButton.addEventListener('click', () => {
-    const soundFile = showRandomCombination();
-    playSound(soundFile); // Play sound for the new random combination
-});
+nextButton.addEventListener('click', showNextCombination);
 
-// Initialize with a random combination
-showRandomCombination();
+// Initialize with the first combination
+const initialCombo1 = combinations[currentIndex];
+const initialCombo2 = combinations[(currentIndex + 1) % combinations.length];
+combinationDisplay.textContent = initialCombo1.combo + initialCombo2.combo;
