@@ -25,6 +25,8 @@ const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
 const nextButton = document.getElementById('next');
 
+let soundsToPlay = [];  // Array to hold sounds for the current random combination
+
 // Function to play the sounds sequentially
 function playSoundSequentially(sounds) {
     if (sounds.length === 0) return; // No sounds to play
@@ -43,37 +45,37 @@ function getRandomIndex() {
     return Math.floor(Math.random() * combinations.length);
 }
 
-// Function to create a random combination of multiple consonant-vowel pairs
-function generateRandomCombination(numberOfPairs) {
+// Function to create a random combination of 2 consonant-vowel pairs
+function generateRandomCombination() {
     let randomCombo = '';
-    let sounds = [];
+    soundsToPlay = []; // Reset sounds array
 
-    for (let i = 0; i < numberOfPairs; i++) {
+    // We will generate exactly 2 random consonant-vowel pairs
+    for (let i = 0; i < 2; i++) {
         const randomIndex = getRandomIndex();
         const selectedCombo = combinations[randomIndex];  // Select a random consonant-vowel pair
         randomCombo += selectedCombo.combo;  // Concatenate the consonant-vowel pair
-        sounds.push(selectedCombo.sound);    // Collect the corresponding sound for sequential play
+        soundsToPlay.push(selectedCombo.sound);    // Collect the corresponding sound for sequential play
     }
 
-    return { randomCombo, sounds };
+    return randomCombo;
 }
 
-// Function to update the display and play random combinations
-function updateDisplayAndPlayRandomCombinations() {
-    const numberOfPairs = 3; // Adjust this to change how many pairs you want in the combination
-    const { randomCombo, sounds } = generateRandomCombination(numberOfPairs);
-
-    // Display the combined consonant-vowel result
+// Function to update the display with a new random combination but not play the sound
+function updateDisplayWithRandomCombination() {
+    const randomCombo = generateRandomCombination();
     combinationDisplay.textContent = randomCombo;
-
-    // Play the corresponding sounds sequentially
-    playSoundSequentially(sounds);
 }
 
-// Event listener for the next button to show the next random combination and play the sound
+// Event listener for the "Next" button to generate a new random combination
 nextButton.addEventListener('click', () => {
-    updateDisplayAndPlayRandomCombinations();
+    updateDisplayWithRandomCombination();  // Generate and display the random combination
 });
 
-// Initialize with the first random combination and sound
-updateDisplayAndPlayRandomCombinations();  // This will display and play the first random combination
+// Event listener for the "Lyd" button to play the corresponding sounds
+playSoundButton.addEventListener('click', () => {
+    playSoundSequentially(soundsToPlay);  // Play the sounds for the current random combination
+});
+
+// Initialize with the first random combination (but do not play the sound)
+updateDisplayWithRandomCombination();  // Display the first random combination
