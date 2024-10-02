@@ -93,11 +93,25 @@ button:active {
     transition: opacity 0.3s;
 }
 
-#emoji-collection {
-    font-size: 24px;
-    color: #666;
+#emoji-tracker {
+    display: flex;
+    justify-content: space-evenly;
     margin-top: 20px;
-    padding: 10px;
+}
+
+.emoji-button {
+    display: flex;
+    align-items: center;
     background-color: #f8f9fa;
-    border-radius: 10px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 30px;
+    cursor: default;
+}
+
+.emoji-counter {
+    margin-left: 10px;
+    font-size: 20px;
+    color: #333;
 }
