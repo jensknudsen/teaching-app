@@ -27,7 +27,7 @@ const nextButton = document.getElementById('next');
 
 let soundsToPlay = [];  // Array to hold sounds for the current random combination
 
-// Function to play the sounds sequentially
+// Function to play the sounds sequentially when "Lyd" is clicked
 function playSoundSequentially(sounds) {
     if (sounds.length === 0) return; // No sounds to play
 
@@ -48,7 +48,7 @@ function getRandomIndex() {
 // Function to create a random combination of 2 consonant-vowel pairs
 function generateRandomCombination() {
     let randomCombo = '';
-    soundsToPlay = []; // Reset sounds array
+    soundsToPlay = []; // Reset the sounds array
 
     // We will generate exactly 2 random consonant-vowel pairs
     for (let i = 0; i < 2; i++) {
