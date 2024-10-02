@@ -24,7 +24,11 @@ const combinations = [
 const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
 const nextButton = document.getElementById('next');
-const levelSelect = document.getElementById('level-select');
+
+// Tab elements for levels
+const level1Tab = document.getElementById('level1-tab');
+const level2Tab = document.getElementById('level2-tab');
+const level3Tab = document.getElementById('level3-tab');
 
 let soundsToPlay = [];  // Array to store sounds for the current combination
 let currentLevel = 1;  // Default to Level 1 (1 combination)
@@ -78,9 +82,26 @@ playSoundButton.addEventListener('click', () => {
     }
 });
 
-// Event listener for the level selection
-levelSelect.addEventListener('change', (event) => {
-    currentLevel = parseInt(event.target.value);  // Update the current level based on the selection
+// Tab event listeners for selecting the level
+level1Tab.addEventListener('click', () => {
+    currentLevel = 1;  // Set to Level 1 (1 combination)
+    level1Tab.style.backgroundColor = '#0056b3';
+    level2Tab.style.backgroundColor = '#007bff';
+    level3Tab.style.backgroundColor = '#007bff';
+});
+
+level2Tab.addEventListener('click', () => {
+    currentLevel = 2;  // Set to Level 2 (2 combinations)
+    level2Tab.style.backgroundColor = '#0056b3';
+    level1Tab.style.backgroundColor = '#007bff';
+    level3Tab.style.backgroundColor = '#007bff';
+});
+
+level3Tab.addEventListener('click', () => {
+    currentLevel = 3;  // Set to Level 3 (3 combinations)
+    level3Tab.style.backgroundColor = '#0056b3';
+    level1Tab.style.backgroundColor = '#007bff';
+    level2Tab.style.backgroundColor = '#007bff';
 });
 
 // Initialize the page with no combination shown (waiting for "Next" to be clicked)
