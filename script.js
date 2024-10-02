@@ -38,9 +38,9 @@ function playSoundSequentially(sounds) {
     };
 }
 
-// Function to get a random consonant-vowel combination
-function getRandomCombination() {
-    return combinations[Math.floor(Math.random() * combinations.length)];
+// Function to get a random index for the combinations array
+function getRandomIndex() {
+    return Math.floor(Math.random() * combinations.length);
 }
 
 // Function to create a random combination of multiple consonant-vowel pairs
@@ -49,9 +49,10 @@ function generateRandomCombination(numberOfPairs) {
     let sounds = [];
 
     for (let i = 0; i < numberOfPairs; i++) {
-        const selectedCombo = getRandomCombination();  // Select a completely random consonant-vowel pair
+        const randomIndex = getRandomIndex();
+        const selectedCombo = combinations[randomIndex];  // Select a random consonant-vowel pair
         randomCombo += selectedCombo.combo;  // Concatenate the consonant-vowel pair
-        sounds.push(selectedCombo.sound);    // Collect the sound for sequential play
+        sounds.push(selectedCombo.sound);    // Collect the corresponding sound for sequential play
     }
 
     return { randomCombo, sounds };
