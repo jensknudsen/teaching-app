@@ -17,7 +17,7 @@ const combinations = [
     { combo: 'cy', sound: 'sounds/cy.mp3' },
     { combo: 'cæ', sound: 'sounds/cæ.mp3' },
     { combo: 'cø', sound: 'sounds/cø.mp3' },
-    { combo: 'cå', sound: 'sounds/cå.mp3' },
+    { combo: 'cå', sound: 'sounds/cå.mp3' }
     // Add more combinations here
 ];
 
