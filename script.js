@@ -18,7 +18,6 @@ const combinations = [
     { combo: 'cæ', sound: 'sounds/cæ.mp3' },
     { combo: 'cø', sound: 'sounds/cø.mp3' },
     { combo: 'cå', sound: 'sounds/cå.mp3' }
-    // Add more combinations here
 ];
 
 // DOM elements
@@ -31,8 +30,11 @@ function playCombinedSounds(combination) {
     const soundFiles = combination.split('').map(part => `sounds/${part}.mp3`);
     
     soundFiles.forEach(soundFile => {
+        console.log(`Playing sound: ${soundFile}`); // Log which sound is playing
         const audio = new Audio(soundFile);
-        audio.play();
+        audio.play().catch(error => {
+            console.error(`Error playing sound ${soundFile}:`, error);
+        });
     });
 }
 
