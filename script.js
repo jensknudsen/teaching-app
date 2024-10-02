@@ -21,46 +21,39 @@ const combinations = [
     // Add more combinations here
 ];
 
-// Keep track of the current combination
-let currentIndex = 0;
-
 // DOM elements
 const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
 const nextButton = document.getElementById('next');
 
-// Function to play the combined sound by parts
-function playCombinedSound(combination) {
-    const parts = combination.split('');
-    let delay = 0;
-
-    parts.forEach(part => {
-        const soundFile = `sounds/${part}.mp3`;
+// Function to play the sounds of the combination simultaneously
+function playCombinedSounds(combination) {
+    const soundFiles = combination.split('').map(part => `sounds/${part}.mp3`);
+    
+    soundFiles.forEach(soundFile => {
         const audio = new Audio(soundFile);
-        
-        // Play sound after delay
-        setTimeout(() => {
-            audio.play();
-        }, delay);
-        
-        // Increment delay for the next sound (adjust duration based on your sound files)
-        delay += 1000; // Adjust delay based on sound duration
+        audio.play();
     });
 }
 
-// Function to show the next combination
-function showNextCombination() {
-    currentIndex = (currentIndex + 1) % combinations.length;
-    combinationDisplay.textContent = combinations[currentIndex].combo;
+// Function to show a random combination
+function showRandomCombination() {
+    // Generate a random index
+    const randomIndex = Math.floor(Math.random() * combinations.length);
+    combinationDisplay.textContent = combinations[randomIndex].combo;
+    return combinations[randomIndex].combo; // Return the random combination for sound playback
 }
 
 // Event listeners for buttons
 playSoundButton.addEventListener('click', () => {
-    const combination = combinations[currentIndex].combo;
-    playCombinedSound(combination);
+    const combination = combinationDisplay.textContent;
+    playCombinedSounds(combination);
 });
 
-nextButton.addEventListener('click', showNextCombination);
+nextButton.addEventListener('click', () => {
+    const randomCombination = showRandomCombination();
+    playCombinedSounds(randomCombination); // Play sound for the new random combination
+});
 
-// Initialize with the first combination
-combinationDisplay.textContent = combinations[currentIndex].combo;
+// Initialize with a random combination
+const initialCombination = showRandomCombination();
