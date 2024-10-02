@@ -50,21 +50,28 @@ function showNextCombination() {
     
     // Display the combined result
     combinationDisplay.textContent = combo1.combo + combo2.combo;
-    
-    // Update currentIndex to move to the next pair in sequence
-    currentIndex = (currentIndex + 2) % combinations.length;
 }
 
 // Event listeners for buttons
 playSoundButton.addEventListener('click', () => {
+    // Get the current and next combination sounds
     const combo1 = combinations[currentIndex];
     const combo2 = combinations[(currentIndex + 1) % combinations.length];
     
     // Play the sounds sequentially
     playSoundSequentially(combo1.sound, combo2.sound);
+    
+    // Update the currentIndex AFTER playing the sound
+    currentIndex = (currentIndex + 2) % combinations.length;
 });
 
-nextButton.addEventListener('click', showNextCombination);
+nextButton.addEventListener('click', () => {
+    // Display the next combination
+    showNextCombination();
+    
+    // Increment the currentIndex to update it for the next combination
+    currentIndex = (currentIndex + 2) % combinations.length;
+});
 
 // Initialize with the first combination
 const initialCombo1 = combinations[currentIndex];
