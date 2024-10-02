@@ -25,59 +25,56 @@ const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
 const nextButton = document.getElementById('next');
 
-let soundsToPlay = [];  // Array to hold sounds for the current random combination
+let soundsToPlay = [];  // Array to store sounds for the current combination
 
-// Function to play the sounds sequentially when "Lyd" is clicked
+// Function to play the sounds sequentially
 function playSoundSequentially(sounds) {
-    if (sounds.length === 0) return; // No sounds to play
+    if (sounds.length === 0) return;  // No sounds to play
 
     const audio = new Audio(sounds[0]);
     audio.play();
 
-    // When the current sound finishes, play the next sound in the list
+    // Play the next sound after the current one finishes
     audio.onended = () => {
-        playSoundSequentially(sounds.slice(1)); // Recursive call for the next sound
+        playSoundSequentially(sounds.slice(1));  // Play the rest of the sounds
     };
 }
 
-// Function to get a random index for the combinations array
-function getRandomIndex() {
-    return Math.floor(Math.random() * combinations.length);
-}
-
-// Function to create a random combination of exactly 2 consonant-vowel pairs
+// Function to generate exactly 2 random consonant-vowel pairs
 function generateRandomCombination() {
-    let randomCombo = '';
-    soundsToPlay = []; // Reset the sounds array
+    soundsToPlay = []; // Clear previous sounds
 
-    // We will generate exactly 2 random consonant-vowel pairs
+    let combinationText = '';  // To store the combination text
+
+    // Generate exactly 2 random consonant-vowel pairs
     for (let i = 0; i < 2; i++) {
-        const randomIndex = getRandomIndex();
-        const selectedCombo = combinations[randomIndex];  // Select a random consonant-vowel pair
-        randomCombo += selectedCombo.combo;  // Concatenate the consonant-vowel pair
-        soundsToPlay.push(selectedCombo.sound);    // Collect the corresponding sound for sequential play
+        const randomIndex = Math.floor(Math.random() * combinations.length);
+        const selectedCombo = combinations[randomIndex];
+
+        combinationText += selectedCombo.combo;  // Concatenate the text
+        soundsToPlay.push(selectedCombo.sound);  // Store the corresponding sound
     }
 
-    return randomCombo;
+    return combinationText;
 }
 
 // Function to update the display with a new random combination but not play the sound
 function updateDisplayWithRandomCombination() {
-    const randomCombo = generateRandomCombination();
-    combinationDisplay.textContent = randomCombo;  // Display the random consonant-vowel combination
+    const newCombination = generateRandomCombination();
+    combinationDisplay.textContent = newCombination;  // Display the random consonant-vowel combination
 }
 
-// Event listener for the "Next" button to generate a new random combination
+// Event listener for the "Next" button
 nextButton.addEventListener('click', () => {
-    updateDisplayWithRandomCombination();  // Generate and display the random combination
+    updateDisplayWithRandomCombination();  // Display a new random combination
 });
 
-// Event listener for the "Lyd" button to play the corresponding sounds
+// Event listener for the "Lyd" button to play the sounds
 playSoundButton.addEventListener('click', () => {
     if (soundsToPlay.length > 0) {
-        playSoundSequentially(soundsToPlay);  // Play the sounds for the current random combination
+        playSoundSequentially(soundsToPlay);  // Play the sounds associated with the current combination
     }
 });
 
-// Initialize with an empty state and wait for "Next" to be pressed first
+// Initialize the page with no combination shown (waiting for "Next" to be clicked)
 combinationDisplay.textContent = '';  // Empty initial display
