@@ -24,8 +24,10 @@ const combinations = [
 const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
 const nextButton = document.getElementById('next');
+const levelSelect = document.getElementById('level-select');
 
 let soundsToPlay = [];  // Array to store sounds for the current combination
+let currentLevel = 1;  // Default to Level 1 (1 combination)
 
 // Function to play the sounds sequentially
 function playSoundSequentially(sounds) {
@@ -40,14 +42,14 @@ function playSoundSequentially(sounds) {
     };
 }
 
-// Function to generate exactly 2 random consonant-vowel pairs
-function generateRandomCombination() {
+// Function to generate random consonant-vowel pairs based on the level
+function generateRandomCombination(level) {
     soundsToPlay = []; // Clear previous sounds
 
     let combinationText = '';  // To store the combination text
 
-    // Generate exactly 2 random consonant-vowel pairs
-    for (let i = 0; i < 2; i++) {
+    // Generate random consonant-vowel pairs based on the current level
+    for (let i = 0; i < level; i++) {
         const randomIndex = Math.floor(Math.random() * combinations.length);
         const selectedCombo = combinations[randomIndex];
 
@@ -60,7 +62,7 @@ function generateRandomCombination() {
 
 // Function to update the display with a new random combination but not play the sound
 function updateDisplayWithRandomCombination() {
-    const newCombination = generateRandomCombination();
+    const newCombination = generateRandomCombination(currentLevel);  // Use currentLevel for the number of combinations
     combinationDisplay.textContent = newCombination;  // Display the random consonant-vowel combination
 }
 
@@ -74,6 +76,11 @@ playSoundButton.addEventListener('click', () => {
     if (soundsToPlay.length > 0) {
         playSoundSequentially(soundsToPlay);  // Play the sounds associated with the current combination
     }
+});
+
+// Event listener for the level selection
+levelSelect.addEventListener('change', (event) => {
+    currentLevel = parseInt(event.target.value);  // Update the current level based on the selection
 });
 
 // Initialize the page with no combination shown (waiting for "Next" to be clicked)
