@@ -73,7 +73,7 @@ button:active {
     transform: scale(0.95);  /* Button shrinks slightly when clicked */
 }
 
-/* Add some animation when "Next" is clicked */
+/* Add shake animation when "Next" is clicked */
 .next-pressed {
     animation: shake 0.5s;
 }
@@ -86,8 +86,18 @@ button:active {
     100% { transform: translateX(0); }
 }
 
-#tap-counter {
+#emoji-reward {
+    font-size: 40px;
     margin-top: 10px;
-    font-size: 20px;
+    color: #ff8800;
+    transition: opacity 0.3s;
+}
+
+#emoji-collection {
+    font-size: 24px;
     color: #666;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
 }
