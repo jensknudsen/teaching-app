@@ -20,9 +20,6 @@ const combinations = [
     { combo: 'cå', sound: 'sounds/cå.mp3' }
 ];
 
-// Keep track of the current combination
-let currentIndex = 0;
-
 // DOM elements
 const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
@@ -42,11 +39,24 @@ function playSoundSequentially(soundFile1, soundFile2) {
     };
 }
 
-// Function to update both display and sound in sync
-function updateDisplayAndPlaySound() {
-    // Select two combinations for concatenation
-    const combo1 = combinations[currentIndex];
-    const combo2 = combinations[(currentIndex + 1) % combinations.length]; // Get the next combination
+// Function to generate a random index for the combinations
+function getRandomIndex() {
+    return Math.floor(Math.random() * combinations.length);
+}
+
+// Function to update both display and sound with random combinations
+function updateDisplayAndPlaySoundRandom() {
+    // Randomly select two combinations for concatenation
+    const randomIndex1 = getRandomIndex();
+    let randomIndex2 = getRandomIndex();
+
+    // Ensure the second random index is not the same as the first
+    while (randomIndex1 === randomIndex2) {
+        randomIndex2 = getRandomIndex();
+    }
+
+    const combo1 = combinations[randomIndex1];
+    const combo2 = combinations[randomIndex2];
     
     // Display the combined result
     combinationDisplay.textContent = combo1.combo + combo2.combo;
@@ -55,14 +65,11 @@ function updateDisplayAndPlaySound() {
     playSoundSequentially(combo1.sound, combo2.sound);
 }
 
-// Event listener for the next button to show the next combination and play the sound
+// Event listener for the next button to show the next random combination and play the sound
 nextButton.addEventListener('click', () => {
-    // First update the display and sound for the current combination
-    updateDisplayAndPlaySound();
-
-    // After the sound and display are updated, increment the currentIndex for the next button press
-    currentIndex = (currentIndex + 2) % combinations.length;
+    // Update the display and sound with random combinations
+    updateDisplayAndPlaySoundRandom();
 });
 
-// Initialize with the first combination and sound
-updateDisplayAndPlaySound();  // This will display the initial combination and play the initial sound
+// Initialize with the first random combination and sound
+updateDisplayAndPlaySoundRandom();  // This will display and play the first random combination
