@@ -35,6 +35,7 @@ const appTitle = document.getElementById('app-title');
 
 let soundsToPlay = [];  // Array to store sounds for the current combination
 let currentLevel = 1;  // Default to Level 1 (1 combination)
+let isFirstPress = true;  // Track if the "Next" button is pressed for the first time
 
 // Function to hide the title after opening the app
 function hideTitle() {
@@ -83,6 +84,12 @@ function updateDisplayWithRandomCombination() {
 // Event listener for the "Next" button
 nextButton.addEventListener('click', () => {
     updateDisplayWithRandomCombination();  // Display a new random combination
+
+    // After the first press, change "Start" to "Næste"
+    if (isFirstPress) {
+        nextButton.textContent = 'Næste';  // Change button text to "Næste"
+        isFirstPress = false;  // Mark that the button has been pressed
+    }
 });
 
 // Event listener for the "Lyd" button to play the sounds
@@ -116,6 +123,7 @@ level3Tab.addEventListener('click', () => {
 
 // Initialize the page with no combination shown (waiting for "Next" to be clicked)
 combinationDisplay.textContent = '';  // Empty initial display
+nextButton.textContent = 'Start';  // Set initial button text to "Start"
 
-// Call the hideTitle function when the app opens
-hideTitle();
+// Call the hideTitle function when the app opens after DOM is loaded
+document.addEventListener('DOMContentLoaded', hideTitle);
