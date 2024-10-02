@@ -21,21 +21,20 @@ const combinations = [
 ];
 
 // Array of emojis for reward
-const emojis = ['🎉', '🎈', '🌟', '🚀', '🦄', '🐶', '🍀', '🌈', '💎', '🔥'];
+const emojis = ['🎉', '🎈', '🌟', '🚀', '🦄'];
 
 const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
 const nextButton = document.getElementById('next');
 const emojiReward = document.getElementById('emoji-reward');
-const emojiCollection = document.getElementById('emoji-collection');
 
 // Tab elements for levels
 const level1Tab = document.getElementById('level1-tab');
 const level2Tab = document.getElementById('level2-tab');
 const level3Tab = document.getElementById('level3-tab');
 
-// Title element
-const appTitle = document.getElementById('app-title');
+// Emoji tracker elements
+const emojiCounters = Array.from(document.getElementsByClassName('emoji-counter'));
 
 let soundsToPlay = [];  // Array to store sounds for the current combination
 let currentLevel = 1;  // Default to Level 1 (1 combination)
@@ -90,13 +89,17 @@ function updateDisplayWithRandomCombination() {
 function showEmojiReward() {
     if (tapCount % 10 === 0 && tapCount > 0) {
         // Show a random emoji from the emoji array
-        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-        emojiReward.textContent = `🎉 You've earned: ${randomEmoji}`;
+        const randomEmojiIndex = Math.floor(Math.random() * emojis.length);
+        const randomEmoji = emojis[randomEmojiIndex];
+        
+        emojiReward.textContent = `🎉 Du har tjent en: ${randomEmoji}`;
         emojiReward.style.opacity = '1';  // Make the emoji visible
-        
-        // Append the emoji to the collection
-        emojiCollection.textContent += ` ${randomEmoji}`;
-        
+
+        // Update the corresponding emoji counter
+        const counterElement = document.getElementById(`counter-${randomEmojiIndex}`);
+        let currentCount = parseInt(counterElement.textContent);
+        counterElement.textContent = currentCount + 1;
+
         // Hide the emoji reward after 3 seconds
         setTimeout(() => {
             emojiReward.style.opacity = '0';
