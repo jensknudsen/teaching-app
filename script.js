@@ -95,35 +95,4 @@ nextButton.addEventListener('click', () => {
 // Event listener for the "Lyd" button to play the sounds
 playSoundButton.addEventListener('click', () => {
     if (soundsToPlay.length > 0) {
-        playSoundSequentially(soundsToPlay);  // Play the sounds associated with the current combination
-    }
-});
-
-// Tab event listeners for selecting the level
-level1Tab.addEventListener('click', () => {
-    currentLevel = 1;  // Set to Level 1 (1 combination)
-    level1Tab.style.backgroundColor = '#0056b3';
-    level2Tab.style.backgroundColor = '#007bff';
-    level3Tab.style.backgroundColor = '#007bff';
-});
-
-level2Tab.addEventListener('click', () => {
-    currentLevel = 2;  // Set to Level 2 (2 combinations)
-    level2Tab.style.backgroundColor = '#0056b3';
-    level1Tab.style.backgroundColor = '#007bff';
-    level3Tab.style.backgroundColor = '#007bff';
-});
-
-level3Tab.addEventListener('click', () => {
-    currentLevel = 3;  // Set to Level 3 (3 combinations)
-    level3Tab.style.backgroundColor = '#0056b3';
-    level1Tab.style.backgroundColor = '#007bff';
-    level2Tab.style.backgroundColor = '#007bff';
-});
-
-// Initialize the page with no combination shown (waiting for "Next" to be clicked)
-combinationDisplay.textContent = '';  // Empty initial display
-nextButton.textContent = 'Start';  // Set initial button text to "Start"
-
-// Call the hideTitle function when the app opens after DOM is loaded
-document.addEventListener('DOMContentLoaded', hideTitle);
+        playSoundSequentially(soundsToPlay);  // Play the sounds associated with the
