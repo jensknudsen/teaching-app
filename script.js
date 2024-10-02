@@ -45,7 +45,7 @@ function getRandomIndex() {
     return Math.floor(Math.random() * combinations.length);
 }
 
-// Function to create a random combination of 2 consonant-vowel pairs
+// Function to create a random combination of exactly 2 consonant-vowel pairs
 function generateRandomCombination() {
     let randomCombo = '';
     soundsToPlay = []; // Reset the sounds array
@@ -64,7 +64,7 @@ function generateRandomCombination() {
 // Function to update the display with a new random combination but not play the sound
 function updateDisplayWithRandomCombination() {
     const randomCombo = generateRandomCombination();
-    combinationDisplay.textContent = randomCombo;
+    combinationDisplay.textContent = randomCombo;  // Display the random consonant-vowel combination
 }
 
 // Event listener for the "Next" button to generate a new random combination
@@ -74,8 +74,10 @@ nextButton.addEventListener('click', () => {
 
 // Event listener for the "Lyd" button to play the corresponding sounds
 playSoundButton.addEventListener('click', () => {
-    playSoundSequentially(soundsToPlay);  // Play the sounds for the current random combination
+    if (soundsToPlay.length > 0) {
+        playSoundSequentially(soundsToPlay);  // Play the sounds for the current random combination
+    }
 });
 
-// Initialize with the first random combination (but do not play the sound)
-updateDisplayWithRandomCombination();  // Display the first random combination
+// Initialize with an empty state and wait for "Next" to be pressed first
+combinationDisplay.textContent = '';  // Empty initial display
