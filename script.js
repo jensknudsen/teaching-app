@@ -52,28 +52,24 @@ function showNextCombination() {
     combinationDisplay.textContent = combo1.combo + combo2.combo;
 }
 
-// Event listeners for buttons
+// Event listener for play sound button
 playSoundButton.addEventListener('click', () => {
     // Get the current and next combination sounds
     const combo1 = combinations[currentIndex];
     const combo2 = combinations[(currentIndex + 1) % combinations.length];
     
-    // Play the sounds sequentially
+    // Play the sounds sequentially without updating the index
     playSoundSequentially(combo1.sound, combo2.sound);
-    
-    // Update the currentIndex AFTER playing the sound
-    currentIndex = (currentIndex + 2) % combinations.length;
 });
 
+// Event listener for next button to show the next combination
 nextButton.addEventListener('click', () => {
-    // Display the next combination
+    // Show the next combination
     showNextCombination();
     
-    // Increment the currentIndex to update it for the next combination
+    // Increment the currentIndex after showing the combination
     currentIndex = (currentIndex + 2) % combinations.length;
 });
 
 // Initialize with the first combination
-const initialCombo1 = combinations[currentIndex];
-const initialCombo2 = combinations[(currentIndex + 1) % combinations.length];
-combinationDisplay.textContent = initialCombo1.combo + initialCombo2.combo;
+showNextCombination();  // This will display the initial combination
