@@ -25,17 +25,16 @@ const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
 const nextButton = document.getElementById('next');
 
-// Function to play the sound
-function playSoundSequentially(soundFile1, soundFile2) {
-    const audio1 = new Audio(soundFile1);
-    const audio2 = new Audio(soundFile2);
+// Function to play the sounds sequentially
+function playSoundSequentially(sounds) {
+    if (sounds.length === 0) return; // No sounds to play
 
-    // Play the first sound
-    audio1.play();
-    
-    // When the first sound finishes, play the second
-    audio1.onended = () => {
-        audio2.play();
+    const audio = new Audio(sounds[0]);
+    audio.play();
+
+    // When the current sound finishes, play the next sound in the list
+    audio.onended = () => {
+        playSoundSequentially(sounds.slice(1)); // Recursive call for the next sound
     };
 }
 
@@ -44,32 +43,37 @@ function getRandomIndex() {
     return Math.floor(Math.random() * combinations.length);
 }
 
-// Function to update both display and sound with random combinations
-function updateDisplayAndPlaySoundRandom() {
-    // Randomly select two combinations for concatenation
-    const randomIndex1 = getRandomIndex();
-    let randomIndex2 = getRandomIndex();
+// Function to create a random combination of multiple consonant-vowel pairs
+function generateRandomCombination(numberOfPairs) {
+    let randomCombo = '';
+    let sounds = [];
 
-    // Ensure the second random index is not the same as the first
-    while (randomIndex1 === randomIndex2) {
-        randomIndex2 = getRandomIndex();
+    for (let i = 0; i < numberOfPairs; i++) {
+        const randomIndex = getRandomIndex();
+        const selectedCombo = combinations[randomIndex];
+        randomCombo += selectedCombo.combo;  // Concatenate the consonant-vowel pair
+        sounds.push(selectedCombo.sound);    // Collect the sound for sequential play
     }
 
-    const combo1 = combinations[randomIndex1];
-    const combo2 = combinations[randomIndex2];
-    
-    // Display the combined result
-    combinationDisplay.textContent = combo1.combo + combo2.combo;
+    return { randomCombo, sounds };
+}
+
+// Function to update the display and play random combinations
+function updateDisplayAndPlayRandomCombinations() {
+    const numberOfPairs = 3; // Adjust this to change how many pairs you want in the combination
+    const { randomCombo, sounds } = generateRandomCombination(numberOfPairs);
+
+    // Display the combined consonant-vowel result
+    combinationDisplay.textContent = randomCombo;
 
     // Play the corresponding sounds sequentially
-    playSoundSequentially(combo1.sound, combo2.sound);
+    playSoundSequentially(sounds);
 }
 
 // Event listener for the next button to show the next random combination and play the sound
 nextButton.addEventListener('click', () => {
-    // Update the display and sound with random combinations
-    updateDisplayAndPlaySoundRandom();
+    updateDisplayAndPlayRandomCombinations();
 });
 
 // Initialize with the first random combination and sound
-updateDisplayAndPlaySoundRandom();  // This will display and play the first random combination
+updateDisplayAndPlayRandomCombinations();  // This will display and play the first random combination
