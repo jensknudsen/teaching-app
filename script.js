@@ -25,37 +25,31 @@ const combinationDisplay = document.getElementById('combination');
 const playSoundButton = document.getElementById('play-sound');
 const nextButton = document.getElementById('next');
 
-// Function to play the sounds of the combination simultaneously
-function playCombinedSounds(combination) {
-    const soundFiles = combination.split('').map(part => `sounds/${part}.mp3`);
-    
-    soundFiles.forEach(soundFile => {
-        console.log(`Playing sound: ${soundFile}`); // Log which sound is playing
-        const audio = new Audio(soundFile);
-        audio.play().catch(error => {
-            console.error(`Error playing sound ${soundFile}:`, error);
-        });
+// Function to play the sound
+function playSound(soundFile) {
+    const audio = new Audio(soundFile);
+    audio.play().catch(error => {
+        console.error(`Error playing sound: ${error}`);
     });
 }
 
 // Function to show a random combination
 function showRandomCombination() {
-    // Generate a random index
     const randomIndex = Math.floor(Math.random() * combinations.length);
     combinationDisplay.textContent = combinations[randomIndex].combo;
-    return combinations[randomIndex].combo; // Return the random combination for sound playback
+    return combinations[randomIndex].sound; // Return the sound for the new combination
 }
 
 // Event listeners for buttons
 playSoundButton.addEventListener('click', () => {
-    const combination = combinationDisplay.textContent;
-    playCombinedSounds(combination);
+    const soundFile = combinations.find(c => c.combo === combinationDisplay.textContent).sound;
+    playSound(soundFile);
 });
 
 nextButton.addEventListener('click', () => {
-    const randomCombination = showRandomCombination();
-    playCombinedSounds(randomCombination); // Play sound for the new random combination
+    const soundFile = showRandomCombination();
+    playSound(soundFile); // Play sound for the new random combination
 });
 
 // Initialize with a random combination
-const initialCombination = showRandomCombination();
+showRandomCombination();
