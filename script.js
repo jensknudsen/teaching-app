@@ -42,33 +42,27 @@ function playSoundSequentially(soundFile1, soundFile2) {
     };
 }
 
-// Function to show the current combination (synchronized with sound)
-function showCombination() {
+// Function to update both display and sound in sync
+function updateDisplayAndPlaySound() {
+    // Select two combinations for concatenation
     const combo1 = combinations[currentIndex];
-    const combo2 = combinations[(currentIndex + 1) % combinations.length];
+    const combo2 = combinations[(currentIndex + 1) % combinations.length]; // Get the next combination
     
     // Display the combined result
     combinationDisplay.textContent = combo1.combo + combo2.combo;
+
+    // Play the corresponding sounds sequentially
+    playSoundSequentially(combo1.sound, combo2.sound);
 }
 
-// Event listener for the play sound button
-playSoundButton.addEventListener('click', () => {
-    // Get the current and next combination sounds
-    const combo1 = combinations[currentIndex];
-    const combo2 = combinations[(currentIndex + 1) % combinations.length];
-    
-    // Play the sounds sequentially without updating the index
-    playSoundSequentially(combo1.sound, combo2.sound);
-});
-
-// Event listener for the next button to show the next combination and synchronize it with the sound
+// Event listener for the next button to show the next combination and play the sound
 nextButton.addEventListener('click', () => {
-    // Increment the currentIndex for the next pair
+    // First update the display and sound for the current combination
+    updateDisplayAndPlaySound();
+
+    // After the sound and display are updated, increment the currentIndex for the next button press
     currentIndex = (currentIndex + 2) % combinations.length;
-    
-    // Show the updated combination
-    showCombination();
 });
 
-// Initialize with the first combination
-showCombination();  // This will display the initial combination
+// Initialize with the first combination and sound
+updateDisplayAndPlaySound();  // This will display the initial combination and play the initial sound
